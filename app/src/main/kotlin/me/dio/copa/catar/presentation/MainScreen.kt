@@ -50,7 +50,7 @@ fun MainScreenList(
             .fillMaxSize()
             .padding(8.dp)
     ) {
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             items(matches) { match ->
                 MainScreenListItem(match, onClick)
             }
@@ -70,22 +70,31 @@ fun MainScreenListItem(
         Box {
             AsyncImage(
                 model = match.stadium.image,
-                contentDescription = null,
+                contentDescription = "Imagem do estádio!",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.height(160.dp)
             )
 
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    val drawable = if (match.notificationEnabled) R.drawable.ic_notifications_active
-                    else R.drawable.ic_notifications
+
+                    var drawable: Int
+                    var description: Int
+
+                    if (match.notificationEnabled) {
+                        drawable = R.drawable.ic_notifications_active
+                        description = R.string.enabled_notification
+                    } else {
+                        drawable = R.drawable.ic_notifications
+                        description = R.string.disabled_notification
+                    }
 
                     Image(
                         painter = painterResource(id = drawable),
                         modifier = Modifier.clickable {
                             onClick(match)
                         },
-                        contentDescription = null
+                        contentDescription = description.toString()
                     )
                 }
                 Row(
@@ -108,7 +117,7 @@ fun MainScreenListItem(
                     Text(
                         text = "X",
                         modifier = Modifier.padding(end = 16.dp, start = 16.dp),
-                        style = MaterialTheme.typography.h6.copy(color = Color.White)
+                        style = MaterialTheme.typography.h5.copy(color = Color.White)
                     )
 
                     MainScreenListItemTeam(match.team2)
@@ -121,19 +130,20 @@ fun MainScreenListItem(
 
 @Composable
 fun MainScreenListItemTeam(team: TeamDomain) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    Row (verticalAlignment = Alignment.CenterVertically) {
         Text(
             text = team.flag,
             modifier = Modifier.align(Alignment.CenterVertically),
             style = MaterialTheme.typography.h3.copy(color = Color.White)
         )
 
-        Spacer(modifier = Modifier.size(16.dp))
+        Spacer(modifier = Modifier.size(4.dp))
 
         Text(
             text = team.displayName,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.h6.copy(color = Color.White)
         )
+
     }
 }

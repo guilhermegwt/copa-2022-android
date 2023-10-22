@@ -13,7 +13,7 @@ import me.dio.copa.catar.domain.model.MatchDomain
 import java.time.Duration
 import java.time.LocalDateTime
 
-class NotificationMatcher(
+class NotificationWorker(
     private val context: Context,
     workerParams: WorkerParameters,
 ) : Worker(context, workerParams) {
@@ -52,7 +52,7 @@ class NotificationMatcher(
         }
 
         private fun createRequest(initialDelay: Duration, inputData: Data): OneTimeWorkRequest =
-            OneTimeWorkRequestBuilder<NotificationMatcher>()
+            OneTimeWorkRequestBuilder<NotificationWorker>()
                 .setInitialDelay(initialDelay)
                 .setInputData(inputData)
                 .build()
